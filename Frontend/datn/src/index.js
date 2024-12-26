@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+// có thể sẽ cần sửa dòng bên dưới(đầu video2)"
 import "antd/dist/reset.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
