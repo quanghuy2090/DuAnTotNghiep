@@ -6,6 +6,7 @@ import slider2 from '../../assets/images/slider2.jpg';
 import slider3 from '../../assets/images/slider3.jpg';
 import { WrapperTypeProduct } from './style';
 import CardComponent from '../../components/CardComponent/CardComponent';
+import NavbarComponent from '../../components/NavbarComponent/NavbarComponent';
 
 const HomePage = () => {
   const arr = ['TV', 'Tủ Lạnh', 'Laptop'];
@@ -27,6 +28,7 @@ const HomePage = () => {
       <div style={{marginTop: '20px', display:'flex', alignItems:'center', gap:'20px'}}>
         <CardComponent/>
       </div>
+      <NavbarComponent/>
     </div>
    </>
   );
