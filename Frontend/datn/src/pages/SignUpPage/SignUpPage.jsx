@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   WrapperContainerLeft,
   WrapperContainerRight,
   WrapperTextLight,
 } from "../SignInPage/style";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import InputForm from "../../components/InputForm/InputForm";
 import imageLogo from "../../assets/images/logo-login.png";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { Image } from "antd";
 
 const SignUpPage = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setIsShowConfirmPassword(!isShowConfirmPassword);
+  };
+
   return (
     <div
       style={{
@@ -36,8 +48,48 @@ const SignUpPage = () => {
             style={{ marginBottom: "10px" }}
             placeholder="abc@gmail.com"
           />
-          <InputForm style={{ marginBottom: "10px" }} placeholder="Password" />
-          <InputForm placeholder=" Confirm Password" />
+          {/* Mật khẩu */}
+          <div style={{ position: "relative" }}>
+            <span
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "4px",
+                right: "8px",
+                cursor: "pointer",
+              }}
+              onClick={togglePasswordVisibility}
+            >
+              {isShowPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+            </span>
+            <InputForm
+              placeholder="Password"
+              type={isShowPassword ? "text" : "password"}
+            />
+          </div>
+          {/* Xác nhận mật khẩu */}
+          <div style={{ position: "relative", marginTop: "10px" }}>
+            <span
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "4px",
+                right: "8px",
+                cursor: "pointer",
+              }}
+              onClick={toggleConfirmPasswordVisibility}
+            >
+              {isShowConfirmPassword ? (
+                <EyeOutlined />
+              ) : (
+                <EyeInvisibleOutlined />
+              )}
+            </span>
+            <InputForm
+              placeholder="Confirm Password"
+              type={isShowConfirmPassword ? "text" : "password"}
+            />
+          </div>
           <ButtonComponent
             bordered={false}
             size={40}
@@ -49,18 +101,17 @@ const SignUpPage = () => {
               borderRadius: "4px",
               margin: "26px 0 10px",
             }}
-            textButton={"Đăng nhập"}
+            textButton={"Đăng ký"}
             styleTextButton={{
               color: "#fff",
               fontsize: "15px",
               fontWeight: "700",
             }}
           ></ButtonComponent>
-
           <p>
-            Bạn đã có tài khoản?
+            Bạn đã có tài khoản?{" "}
             <WrapperTextLight>
-              <span>Đăng ký</span>
+              <span>Đăng nhập</span>
             </WrapperTextLight>
           </p>
         </WrapperContainerLeft>
