@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   WrapperContainerLeft,
   WrapperContainerRight,
   WrapperTextLight,
 } from "./style";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import InputForm from "../../components/InputForm/InputForm";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import imageLogo from "../../assets/images/logo-login.png";
 import { Image } from "antd";
+
 const SignInPage = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
   return (
     <div
       style={{
@@ -35,7 +43,25 @@ const SignInPage = () => {
             style={{ marginBottom: "10px" }}
             placeholder="abc@gmail.com"
           />
-          <InputForm placeholder="Password" />
+          <div style={{ position: "relative" }}>
+            <span
+              style={{
+                zIndex: 10,
+                position: "absolute",
+                top: "4px",
+                right: "8px",
+                cursor: "pointer",
+              }}
+              onClick={togglePasswordVisibility}
+            >
+              {isShowPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+            </span>
+
+            <InputForm
+              placeholder="Password"
+              type={isShowPassword ? "text" : "password"}
+            />
+          </div>
           <ButtonComponent
             bordered={false}
             size={40}
