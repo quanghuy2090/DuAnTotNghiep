@@ -7,7 +7,7 @@ export const routes = [
     {
         path: '/',
         page: HomePage,
-        isShowHeader:true
+        isShowHeader:true,
     },
     {
         path: '/order',
