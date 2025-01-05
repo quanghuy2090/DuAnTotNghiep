@@ -23,6 +23,9 @@ const genneralRefreshToken = async (payload) => {
   );
   return refresh_token;
 };
+
+//admin moi co quyen xoa tai khoan
+
 module.exports = {
   genneralAccessToken,
   genneralRefreshToken,

@@ -1,6 +1,7 @@
 const User = require("../models/UserModel");
 const bcryptjs = require("bcryptjs");
 const { genneralAccessToken, genneralRefreshToken } = require("./JWTService");
+
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {
     const { name, email, password, confirmPassword, phone } = newUser;
@@ -35,6 +36,7 @@ const createUser = (newUser) => {
     }
   });
 };
+
 const loginUser = (userLogin) => {
   return new Promise(async (resolve, reject) => {
     const { name, email, password, confirmPassword, phone } = userLogin; // Chỉ cần email và password cho login
@@ -85,6 +87,7 @@ const loginUser = (userLogin) => {
     }
   });
 };
+
 const updateUser = async (id, data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -114,8 +117,75 @@ const updateUser = async (id, data) => {
   });
 };
 
+const deleteUser = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Tìm user theo id
+      const checkUser = await User.findOne({ _id: id });
+      // Nếu user không tồn tại
+      if (checkUser === null) {
+        resolve({
+          status: "Ok",
+          message: "The user is not defined",
+        });
+      }
+      await User.findByIdAndDelete(id);
+      // Trả về thành công
+      resolve({
+        status: "Ok",
+        message: "Delete user success",
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getAllUser = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const allUser = await User.find();
+      // Trả về thành công
+      resolve({
+        status: "Ok",
+        message: "GetAll user success",
+        data: allUser,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getDetailsUser = async (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Tìm user theo id
+      const user = await User.findOne({ _id: id });
+      // Nếu user không tồn tại
+      if (user === null) {
+        resolve({
+          status: "Ok",
+          message: "The user is not defined",
+        });
+      }
+      // Trả về thành công
+      resolve({
+        status: "Ok",
+        message: "Get Detail user success",
+        data: user,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createUser,
   loginUser,
   updateUser,
+  deleteUser,
+  getAllUser,
+  getDetailsUser,
 };
