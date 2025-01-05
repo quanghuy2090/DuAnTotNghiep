@@ -85,7 +85,37 @@ const loginUser = (userLogin) => {
     }
   });
 };
+const updateUser = async (id, data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Tìm user theo id
+      const checkUser = await User.findOne({ _id: id });
+      // Nếu user không tồn tại
+      if (checkUser === null) {
+        resolve({
+          status: "Ok",
+          message: "The user is not defined",
+        });
+      }
+      // Cập nhật user
+      const updatedUser = await User.findByIdAndUpdate(id, data, { new: true });
+
+      console.log("updateUser", updatedUser);
+
+      // Trả về thành công
+      resolve({
+        status: "ok",
+        message: "success",
+        data: updatedUser,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createUser,
   loginUser,
+  updateUser,
 };
