@@ -9,10 +9,11 @@ const genneralAccessToken = async (payload) => {
       payload,
     },
     "access_token",
-    { expiresIn: "1h" }
+    { expiresIn: "30s" }
   );
   return access_token;
 };
+
 const genneralRefreshToken = async (payload) => {
   const refresh_token = jwt.sign(
     {
@@ -24,9 +25,37 @@ const genneralRefreshToken = async (payload) => {
   return refresh_token;
 };
 
-//admin moi co quyen xoa tai khoan
+const refreshTokenJwtService = async (token) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log("token", token);
+      jwt.verify(token, "refresh_token", async (err, user) => {
+        if (err) {
+          resolve({
+            status: "Error",
+            message: "The authemtication",
+          });
+        }
+        const { payload } = user;
+        const access_token = await genneralAccessToken({
+          id: payload?.id,
+          isAdmin: payload?.isAdmin,
+        });
+        // Trả về thành công
+        resolve({
+          status: "Ok",
+          message: "Refresh token success",
+          access_token,
+        });
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 module.exports = {
   genneralAccessToken,
   genneralRefreshToken,
+  refreshTokenJwtService,
 };
