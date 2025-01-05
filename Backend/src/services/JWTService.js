@@ -9,7 +9,7 @@ const genneralAccessToken = async (payload) => {
       payload,
     },
     "access_token",
-    { expiresIn: "30s" }
+    { expiresIn: "1h" }
   );
   return access_token;
 };
