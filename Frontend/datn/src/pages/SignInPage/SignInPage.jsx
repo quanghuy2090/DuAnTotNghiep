@@ -9,12 +9,33 @@ import InputForm from "../../components/InputForm/InputForm";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import imageLogo from "../../assets/images/logo-login.png";
 import { Image } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setIsShowPassword(!isShowPassword);
+  };
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleOnchangeEmail = (value) => {
+    setEmail(value);
+  };
+  const handleOnchangePassword = (value) => {
+    setPassword(value);
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigateSignup = () => {
+    navigate("/sign-up");
+  };
+
+  const handleSignin = () => {
+    console.log(email, password);
   };
 
   return (
@@ -42,6 +63,8 @@ const SignInPage = () => {
           <InputForm
             style={{ marginBottom: "10px" }}
             placeholder="abc@gmail.com"
+            value={email}
+            onChange={handleOnchangeEmail}
           />
           <div style={{ position: "relative" }}>
             <span
@@ -60,10 +83,13 @@ const SignInPage = () => {
             <InputForm
               placeholder="Password"
               type={isShowPassword ? "text" : "password"}
+              value={password}
+              onChange={handleOnchangePassword}
             />
           </div>
           <ButtonComponent
-            bordered={false}
+            disabled={!email.length || !password.length}
+            onClick={handleSignin}
             size={40}
             styleButton={{
               background: "rgb(255, 57, 69)",
@@ -85,7 +111,7 @@ const SignInPage = () => {
           </p>
           <p>
             Chưa có tài khoản?{" "}
-            <WrapperTextLight>
+            <WrapperTextLight onClick={handleNavigateSignup}>
               <span>Tạo tài khoản</span>
             </WrapperTextLight>
           </p>
