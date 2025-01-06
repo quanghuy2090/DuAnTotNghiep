@@ -88,10 +88,41 @@ const deleteProduct = async (id) => {
   });
 };
 //hien thi tat ca san pham
-const getAllProduct = async (limit = 8, page = 0) => {
+const getAllProduct = async (limit, page, sort, filter) => {
+  // console.log("sort:", sort);
   return new Promise(async (resolve, reject) => {
     try {
-      const totalProduct = await Product.countDocuments()
+      const totalProduct = await Product.countDocuments();
+      if (filter) {
+        const label = filter[0];
+        const allProductFilter = await Product.find({
+          [label]: {
+            '$regex': filter[1]
+          }
+        }).limit(limit).skip(page * limit);
+        resolve({
+          status: "Ok",
+          message: "GetAll product success",
+          data: allProductFilter,
+          total: totalProduct,
+          pageCurrent: Number(page + 1),
+          totalPage: Math.ceil(totalProduct / limit),
+        });
+      }
+      if (sort) {
+        const objectSort = {};
+        objectSort[sort[1]] = sort[0];
+        // console.log("objectSort:", objectSort);
+        const allProductSort = await Product.find().limit(limit).skip(page * limit).sort(objectSort);
+        resolve({
+          status: "Ok",
+          message: "GetAll product success",
+          data: allProductSort,
+          total: totalProduct,
+          pageCurrent: Number(page + 1),
+          totalPage: Math.ceil(totalProduct / limit),
+        });
+      }
       const allProduct = await Product.find().limit(limit).skip(page * limit);
       // Trả về thành công
       resolve({
@@ -100,7 +131,7 @@ const getAllProduct = async (limit = 8, page = 0) => {
         data: allProduct,
         total: totalProduct,
         pageCurrent: Number(page + 1),
-        totalPage: Math.ceil(totalProduct/limit),
+        totalPage: Math.ceil(totalProduct / limit),
       });
     } catch (e) {
       reject(e);
